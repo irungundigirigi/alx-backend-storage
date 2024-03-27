@@ -18,3 +18,26 @@ class Cache:
         rkey = str(uuid4())
         self._redis.set(rkey, data)
         return rkey
+
+    def get(self, key: str,
+            fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+        '''get and apply transformation fn on data if provided'''
+        value = self._redis.get(key)
+        if fn:
+            value = fn(value)
+        return value
+
+    def get_str(self, key: str) -> str:
+        ''' retrieve string value from cache '''
+        value = self._redis.get(key)
+        '''  decode byte string to string using utf-8 encoding '''
+        return value.decode("utf-8")
+
+    def get_int(self, key: str) -> int:
+        ''' retrieve int value from cache '''
+        value = self._redis.get(key)
+        try:
+            value = int(value.decode("utf-8"))
+        except Exception:
+            value = 0
+        return value
