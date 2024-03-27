@@ -9,7 +9,6 @@ Use Redis in a container
 Redis server is stopped by default - when you are starting a container, you should start it with: ```service redis-server start```
 ## Tasks
 #### 0. Writing strings to Redis
-mandatory
 
 Create a Cache class. In the __init__ method, store an instance of the Redis client as a private variable named _redis (using redis.Redis()) and flush the instance using flushdb.
 
